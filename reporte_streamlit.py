@@ -49,9 +49,7 @@ def apply_custom_css():
         min-height: 100vh;
     }
     
-    .stApp {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
+    
     
     .main-header {
         font-family: 'Inter', sans-serif;
@@ -87,8 +85,8 @@ def apply_custom_css():
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-radius: 20px;
-        padding: 2rem;
-        margin: 1rem 0;
+        padding: .2rem;
+        margin: .5rem 0;
         border: 1px solid rgba(255, 255, 255, 0.18);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -104,8 +102,8 @@ def apply_custom_css():
         backdrop-filter: blur(15px);
         -webkit-backdrop-filter: blur(15px);
         border-radius: 20px;
-        padding: 2rem;
-        margin: 2rem 0;
+        padding: .2rem;
+        margin: .5rem 0;
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -217,7 +215,7 @@ def apply_custom_css():
 def main():
     apply_custom_css()
     
-    st.markdown('<h1 class="main-header">📊 ANÁLISIS DE RIESGO CREDITICIO</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">ANÁLISIS DE RIESGO CREDITICIO</h1>', unsafe_allow_html=True)
     
     # Cargar datos
     df = load_data()
@@ -245,8 +243,8 @@ def main():
     age_range = st.sidebar.slider(
         "👤 Rango de Edad",
         min_value=18,
-        max_value=100,
-        value=(int(df['age'].min()), min(int(df['age'].max()), 100))
+        max_value=65,
+        value=(int(df['age'].min()), min(int(df['age'].max()), 65))
     )
     
     income_range = st.sidebar.slider(
@@ -374,7 +372,7 @@ def show_overview_charts(filtered_df):
             x='income', 
             nbins=30,
             title='Distribución de Ingresos',
-            color_discrete_sequence=['#ff00f5']
+            color_discrete_sequence=['#00f5ff']
         )
         fig_income.update_layout(
             plot_bgcolor='rgba(0,0,0,0)',
@@ -452,15 +450,17 @@ def show_correlation_charts(filtered_df):
             corr_matrix_rounded,
             title="Matriz de Correlación",
             aspect="auto",
-            color_continuous_scale='plasma',
-            text_auto=True  # Mostrar valores en las celdas
+            color_continuous_scale=['#ff6b6b','white', '#00f5ff'],
+            text_auto=True# Mostrar valores en las celdas
         )
         fig_corr.update_layout(
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             font=dict(color='white', size=10)
         )
-        fig_corr.update_traces(textfont=dict(color='white', size=10))
+        fig_corr.update_traces(
+            textfont=dict(color='black', size=10)
+        )
         st.plotly_chart(fig_corr, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
     
@@ -474,7 +474,7 @@ def show_correlation_charts(filtered_df):
             y=default_corr.values.round(2),
             title='Correlación con Default',
             color=default_corr.values,
-            color_continuous_scale='plasma'
+            color_continuous_scale=['#ff6b6b','white', '#00f5ff'],
         )
         fig_default_corr.update_layout(
             plot_bgcolor='rgba(0,0,0,0)',
@@ -501,7 +501,7 @@ def show_categorical_charts(filtered_df):
                 y=ed_distribution.values,
                 title='Distribución por Nivel Educativo',
                 color=ed_distribution.values,
-                color_continuous_scale='viridis'
+                color_continuous_scale=['#ff6b6b','white', '#00f5ff']
             )
             fig_ed.update_layout(
                 plot_bgcolor='rgba(0,0,0,0)',
